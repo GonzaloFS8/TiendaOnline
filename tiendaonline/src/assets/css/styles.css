@@ -1,0 +1,19 @@
+body {
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    color:rgba(0, 28, 73, 1);
+    /*FUENTES*/
+    font-family: 'Segoe UI';
+}
+
+.center{width: 100%;}
+
+
+.clearfix{
+    clear:both;
+    float:none;
+}
+
+
+
