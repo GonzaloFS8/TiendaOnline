@@ -3,7 +3,7 @@
     <h2 class="subheader">Nuestros Productos</h2>
     <!-- Listado Camisetas -->
     <div id="articles" v-if="camisetas.length">
-      <div class="article-grid">
+      <div class="article-div">
         <article
           class="article-item"
           v-for="(camiseta, index) in camisetas"
@@ -11,7 +11,7 @@
         >
           <div class="article-content">
             
-            <div class="image-wrap">
+            <div class="image">
               
               <img
                 :src="camiseta.imagenes.length > 0 ? camiseta.imagenes[0] : ''"
@@ -23,7 +23,7 @@
             
             <p>{{ camiseta.año }}</p>
             
-            <a :href="'/camiseta/' + camiseta._id" class="btn-more">Ver Camiseta</a>
+            <a :href="'/camiseta/' + camiseta._id" class="btn">Ver Camiseta</a>
           </div>
         </article>
       </div>
@@ -76,7 +76,7 @@ export default defineComponent({
   padding-bottom: 10px;
 }
 
-.article-grid {
+.article-div {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -92,13 +92,13 @@ export default defineComponent({
   padding: 20px;
 }
 
-.image-wrap {
+.image {
   width: 100%;
   height: 200px;
   overflow: hidden;
 }
 
-.image-wrap img {
+.image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -110,7 +110,7 @@ export default defineComponent({
   margin-bottom: 7px;
 }
 
-.article-content a.btn-more {
+.article-content a.btn {
   display: block;
   margin-top: 10px;
   color: #fff;
@@ -121,7 +121,7 @@ export default defineComponent({
   transition: background-color 0.3s ease;
 }
 
-.article-content a.btn-more:hover {
+.article-content a.btn:hover {
   background-color: #0056b3;
 }
 </style>
