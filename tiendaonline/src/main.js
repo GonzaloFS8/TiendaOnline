@@ -8,6 +8,7 @@ import ErrorComponent from './components/ErrorComponent.vue';
 import quasarUserOptions from './quasar-user-options';
 import '@quasar/extras/material-icons/material-icons.css'; 
 import { Quasar } from 'quasar'; // Importa Quasar
+import 'quasar/dist/quasar.css';
 // Configuración de las rutas
 const routes = [
   { path: '/', redirect: '/home' },

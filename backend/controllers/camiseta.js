@@ -393,6 +393,7 @@ getImageByCamisetaId: async (req, res) => {
     try {
         // Obtener el ID de la camiseta de la URL
         const camisetaId = req.params.id;
+        const imageName = req.params.imageName;
 
         // Buscar la camiseta por su ID
         const camiseta = await Camiseta.findById(camisetaId);
@@ -405,16 +406,28 @@ getImageByCamisetaId: async (req, res) => {
             });
         }
 
-        // Devolver las imágenes de la camiseta
-        return res.status(200).json({
-            status: 'success',
-            imagenes: camiseta.imagenes
-        });
+        // Verificar si la imagen está en las imágenes de la camiseta
+        if (!camiseta.imagenes.includes(imageName)) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'La imagen no existe en la camiseta.'
+            });
+        }
+
+        // Construir la ruta de la imagen
+        const imagePath = path.join(__dirname, `../upload/camisetas/${imageName}`);
+
+        // Establecer las cabeceras para la imagen
+        res.setHeader('Content-Type', 'image/jpeg');
+        res.setHeader('Content-Disposition', `attachment; filename="${imageName}"`);
+
+        // Enviar la imagen al cliente
+        fs.createReadStream(imagePath).pipe(res);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
             status: 'error',
-            message: 'Error al obtener las imágenes de la camiseta.'
+            message: 'Error al obtener la imagen de la camiseta.'
         });
     }
 },

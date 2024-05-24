@@ -6,23 +6,29 @@
       <div class="article-div">
         <article
           class="article-item"
-          v-for="(camiseta, index) in camisetas"
+          v-for="(camiseta, camisetaIndex) in camisetas"
           :key="camiseta._id"
         >
           <div class="article-content">
-            
-            <div class="image">
-              
-              <img
-                :src="camiseta.imagenes.length > 0 ? camiseta.imagenes[0] : ''"
-                alt="Imagen Camiseta"
-              />
-            </div>
-            
+            <q-carousel
+              v-model="currentImageIndices[camisetaIndex]"
+              swipeable
+              animated
+              control-indicators
+              navigation
+              style="width: 100%; height: 200px;"
+            >
+              <q-carousel-slide
+                v-for="(imagen, idx) in camiseta.imagenes"
+                :key="idx"
+                :name="idx"
+                style="padding: 0%;"
+              >
+                <q-img :src="'http://localhost:3900/api/get-images/' + camiseta._id + '/' + imagen" alt="Imagen Camiseta" max-width="100%" height="100%" />
+              </q-carousel-slide>
+            </q-carousel>
             <h2>{{ camiseta.equipo }}</h2>
-            
             <p>{{ camiseta.año }}</p>
-            
             <a :href="'/camiseta/' + camiseta._id" class="btn">Ver Camiseta</a>
           </div>
         </article>
@@ -34,20 +40,29 @@
 <script>
 import axios from "axios";
 import { ref, defineComponent, onMounted } from "vue";
+import { QCarousel, QCarouselSlide, QBtn, QCard, QImg } from 'quasar';
 
 export default defineComponent({
   name: "NuestrasCamisetas",
+  components: {
+    QCarousel,
+    QCarouselSlide,
+    QBtn,
+    QCard,
+    QImg
+  },
   setup() {
     const camisetas = ref([]);
+    const currentImageIndices = ref([]);
 
     const getCamisetas = () => {
       axios
-        .get("http://localhost:3900/api/camisetas")
-        .then((res) => {
+       .get("http://localhost:3900/api/camisetas")
+       .then((res) => {
           camisetas.value = res.data.camisetas;
-          console.log("Camisetas", camisetas);
+          currentImageIndices.value = new Array(res.data.camisetas.length).fill(0);
         })
-        .catch((error) => {
+       .catch((error) => {
           console.error("Error fetching camisetas:", error);
         });
     };
@@ -58,11 +73,11 @@ export default defineComponent({
 
     return {
       camisetas,
+      currentImageIndices,
     };
   },
 });
 </script>
-
 <style>
 #content {
   width: 60%;

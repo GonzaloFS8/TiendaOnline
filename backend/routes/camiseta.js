@@ -18,6 +18,6 @@ router.delete('/camiseta/:id', CamisetaController.delete);
 router.post('/upload-image/:id',  CamisetaController.upload);
 router.delete('/delete-image/:id/:imageName', CamisetaController.deleteImage);
 router.get('/camisetas/search', CamisetaController.searchCamisetas);
-router.get('/get-images/:id', CamisetaController.getImageByCamisetaId);
+router.get('/get-images/:id/:imageName', CamisetaController.getImageByCamisetaId);
 
 module.exports = router;
