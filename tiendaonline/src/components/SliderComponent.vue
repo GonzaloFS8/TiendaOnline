@@ -1,7 +1,7 @@
 <template>
     <div id="slider">
         <div class="search-container">
-            <Q-input filled dense outlined v-model="valorBuscado" placeholder="Buscar..." @keyup.enter="Buscar" style="width:30%; " >
+            <Q-input filled dense outlined v-model="valorBuscado" placeholder="Buscar..." @keyup.enter="Buscar"  >
             </Q-input>
             <q-btn class="claseBoton" round icon=" search" @click="Buscar" />
         </div>
@@ -78,6 +78,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     padding: 20px;
+    width: 80%;
 }
 
 

@@ -1,37 +1,51 @@
 <template>
     <aside id="sidebar-left">
         <div class="sidebar-item">
-            <h3 @click="toggleMenu">TOP Ligas</h3>
+            <h3 @click="abrirMenu">TOP Ligas</h3>
             <ul v-show="isMenuOpen">
-                <li><a href="#">Serie A</a></li>
-                <li><a href="#">La Liga</a></li>
-                <li><a href="#">Premier</a></li>
-                <li><a href="#">Bundesliga</a></li>
+                <li v-for="liga in ligas" :key="liga">
+                    <router-link :to="'/camisetas/' + liga">{{ liga }}</router-link>
+                </li>
             </ul>
         </div>
     </aside>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
+import axios from 'axios';
 
 export default defineComponent({
     name: 'LeftSideBar',
     setup() {
         const isMenuOpen = ref(true);
+        const ligas = ref([]);
 
-        const toggleMenu = () => {
+        const abrirMenu = () => {
             isMenuOpen.value = !isMenuOpen.value;
         };
 
+        const getLigas = async () => {
+            try {
+                const response = await axios.get('http://localhost:3900/api/ligas');
+                ligas.value = response.data.ligas;
+            } catch (error) {
+                console.error("Error ligas: ", error);
+            }
+        };
+
+        onMounted(getLigas);
+
         return {
             isMenuOpen,
-            toggleMenu
+            abrirMenu,
+            ligas
         };
     }
 });
 </script>
-<style >
+
+<style scoped>
 #sidebar-left {
     width: 10%;
     float: left;

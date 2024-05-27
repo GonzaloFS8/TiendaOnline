@@ -19,5 +19,6 @@ router.post('/upload-image/:id',  CamisetaController.upload);
 router.delete('/delete-image/:id/:imageName', CamisetaController.deleteImage);
 router.get('/camisetas/search', CamisetaController.searchCamisetas);
 router.get('/get-images/:id/:imageName', CamisetaController.getImageByCamisetaId);
+router.get('/ligas', CamisetaController.getLigas);
 
 module.exports = router;

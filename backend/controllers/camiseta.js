@@ -389,7 +389,7 @@ searchCamisetas: async (req, res) => {
         });
     }
 },
-getImageByCamisetaId: async (req, res) => {
+ getImageByCamisetaId: async (req, res) => {
     try {
         // Obtener el ID de la camiseta de la URL
         const camisetaId = req.params.id;
@@ -406,8 +406,11 @@ getImageByCamisetaId: async (req, res) => {
             });
         }
 
+        // Ordenar las imágenes alfabéticamente
+        const sortedImages = camiseta.imagenes.sort();
+
         // Verificar si la imagen está en las imágenes de la camiseta
-        if (!camiseta.imagenes.includes(imageName)) {
+        if (!sortedImages.includes(imageName)) {
             return res.status(404).json({
                 status: 'error',
                 message: 'La imagen no existe en la camiseta.'
@@ -418,8 +421,8 @@ getImageByCamisetaId: async (req, res) => {
         const imagePath = path.join(__dirname, `../upload/camisetas/${imageName}`);
 
         // Establecer las cabeceras para la imagen
-        res.setHeader('Content-Type', 'image/jpeg');
-        res.setHeader('Content-Disposition', `attachment; filename="${imageName}"`);
+        res.setHeader('E-F-A', 'image/jpeg');
+        res.setHeader('E-F-A', `attachment; filename="${imageName}"`);
 
         // Enviar la imagen al cliente
         fs.createReadStream(imagePath).pipe(res);
@@ -431,8 +434,30 @@ getImageByCamisetaId: async (req, res) => {
         });
     }
 },
+getLigas: async (req, res) => {
+    try {
+        const camisetas = await Camiseta.find({});
+        if (camisetas.length === 0) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'No hay camisetas para mostrar!!'
+            });
+        }
 
+        // Obtener ligas únicas
+        const ligas = [...new Set(camisetas.map(camiseta => camiseta.liga))];
 
+        return res.status(200).send({
+            status: 'success',
+            ligas
+        });
+    } catch (error) {
+        return res.status(500).send({
+            status: 'error',
+            message: 'Error al devolver las ligas!!'
+        });
+    }
+},
 
 };
 

@@ -7,6 +7,8 @@ import FormularioInicio from './components/FormularioInicio.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import quasarUserOptions from './quasar-user-options';
 import '@quasar/extras/material-icons/material-icons.css'; 
+import CamisetaDetalle from './components/CamisetaDetalle.vue';
+import CamisetaPorLiga from './components/CamisetaPorLiga.vue';
 import { Quasar } from 'quasar'; // Importa Quasar
 import 'quasar/dist/quasar.css';
 // Configuración de las rutas
@@ -15,14 +17,17 @@ const routes = [
   { path: '/home', component: NuestrasCamisetas },
   { path: '/mas-vendidas', component: NuestrasCamisetas },
   { path: '/Formulario', component: FormularioInicio },
-  { path: '/:pathMatch(.*)*', component: ErrorComponent }
-  
+  { path: '/:pathMatch(.*)*', component: ErrorComponent },
+  { path: '/camiseta/:id', component: CamisetaDetalle, props: true },
+  { path: '/camisetas/:liga', component: CamisetaPorLiga, props: true },
 ];
 
 // Crear una instancia de router
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  // Habilitar reutilización de componentes
+  reuseNavigationHistory: true,
 });
 
 // Crear la aplicación Vue

@@ -20,9 +20,9 @@ export default defineComponent({
 </script>
 <style>
 #sidebar{
-    width: 10%;
+    width: 15%;
     float:right;
-    padding: 20px;
+    padding: 2%;
    margin: 0%;
     
 }
