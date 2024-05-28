@@ -14,6 +14,7 @@
               v-model="ImageIndices[index]"
               swipeable
               animated
+              arrows
               control-indicators
               navigation
               style="width: 100%; height: 200px;"
@@ -82,9 +83,9 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 #content {
-  width: 60%;
+  width: 70%;
   min-height: 650px;
   margin-right: 10px;
   padding-left: 3%;

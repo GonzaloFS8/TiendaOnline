@@ -9,6 +9,7 @@ import quasarUserOptions from './quasar-user-options';
 import '@quasar/extras/material-icons/material-icons.css'; 
 import CamisetaDetalle from './components/CamisetaDetalle.vue';
 import CamisetaPorLiga from './components/CamisetaPorLiga.vue';
+import CamisetaPorEquipo from './components/CamisetaPorEquipo.vue';
 import { Quasar } from 'quasar'; // Importa Quasar
 import 'quasar/dist/quasar.css';
 // Configuración de las rutas
@@ -20,6 +21,7 @@ const routes = [
   { path: '/:pathMatch(.*)*', component: ErrorComponent },
   { path: '/camiseta/:id', component: CamisetaDetalle, props: true },
   { path: '/camisetas/:liga', component: CamisetaPorLiga, props: true },
+  { path: '/camisetas/equipo/:equipo', component: CamisetaPorEquipo, props: true },
 ];
 
 // Crear una instancia de router

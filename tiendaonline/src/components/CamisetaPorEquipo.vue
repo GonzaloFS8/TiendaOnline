@@ -1,7 +1,7 @@
 <template>
     <section id="content">
-      <h2 class="subheader">{{ liga }}</h2>
-      <!-- Listado de Camisetas Filtradas por Liga -->
+      <h2 class="subheader">{{ equipo }}</h2>
+      <!-- Listado de Camisetas Filtradas por Eqauipo -->
       <div id="articles" v-if="camisetasFiltradas.length">
         <div class="article-div">
           <article
@@ -56,7 +56,7 @@ export default defineComponent({
         QImg
     },
     props: {
-        liga: {
+        equipo: {
             type: String,
             required: true
         }
@@ -71,7 +71,7 @@ export default defineComponent({
             .get("http://localhost:3900/api/camisetas")
             .then((res) => {
                 camisetas.value = res.data.camisetas;
-                camisetasFiltradas.value = camisetas.value.filter(camiseta => camiseta.liga === props.liga);
+                camisetasFiltradas.value = camisetas.value.filter(camiseta => camiseta.equipo === props.equipo);
                 ImageIndices.value = new Array(camisetasFiltradas.value.length).fill(0);
              })
             .catch((error) => {
@@ -81,8 +81,7 @@ export default defineComponent({
 
         onMounted(getCamisetas);
 
-        // Watcher para detectar cambios en la prop liga y que actualice el resultado de la Pagina automaticamente.
-        watch(() => props.liga, (newValue, oldValue) => {
+        watch(() => props.equipo, (newValue, oldValue) => {
             if (newValue!== oldValue) {
                 getCamisetas();
             }
