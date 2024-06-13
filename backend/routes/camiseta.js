@@ -13,7 +13,7 @@ router.get('/test-de-controllador', CamisetaController.test);
 router.post('/save', CamisetaController.save);
 router.get('/camisetas', CamisetaController.getCamisetas);
 router.get('/camiseta/:id', CamisetaController.getCamiseta);
-router.put('/camiseta/:id', CamisetaController.update);
+router.put('/camiseta/:id', CamisetaController.editCamiseta);
 router.delete('/camiseta/:id', CamisetaController.delete);
 router.post('/upload-image/:id',  CamisetaController.upload);
 router.delete('/delete-image/:id/:imageName', CamisetaController.deleteImage);
@@ -22,4 +22,5 @@ router.get('/get-images/:id/:imageName', CamisetaController.getImageByCamisetaId
 router.get('/ligas', CamisetaController.getLigas);
 router.get('/equipos',CamisetaController.getEquipos);
 router.get('/equipos/:liga', CamisetaController.getEquiposPorLiga);
+router.get('/detallesCarrito/:id',CamisetaController.getDetallesCarritoCamisetaPorId);
 module.exports = router;

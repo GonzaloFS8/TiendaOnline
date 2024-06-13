@@ -3,32 +3,52 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+const ItemCarritoSchema = new Schema({
+    camiseta: { type: Schema.Types.ObjectId, ref: 'Camiseta', required: true },
+    imagenes: [{ type: String }],
+    talla: { type: String, required: true },
+    jugador: { type: String },
+    cantidad: { type: Number, default: 1 } 
+});
+
+const DireccionSchema = new Schema({
+    localidad: { type: String, required: true },
+    calle: { type: String, required: true },
+    codigoPostal: { type: String, required: true },
+    piso: { type: String,required:true }
+});
+
+
+const PedidoSchema = new Schema({
+    items: [ItemCarritoSchema],
+    fecha: { type: Date, default: Date.now },
+    direccion: DireccionSchema,
+});
+
+
+
 var UsuarioSchema = new Schema({
-    username: {
+    nombreUsuario: {
+        type: String,
+        required: true,
+        unique:true,
+    },
+    correo: {
         type: String,
         required: true,
         unique: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
+    contraseña: {
         type: String,
         required: true
     },
-    cart: [{
-        camiseta: {
-            type: Schema.Types.ObjectId,
-            ref: 'Camiseta'
-        },
-        talla: String,
-        jugador: {
-            nombre: String,
-            numero: Number
-        }
-    }]
+    carrito: [ItemCarritoSchema],
+    pedidos:[PedidoSchema],
+    role: {
+        type: String,
+        enum: ['admin', 'user'],  
+        default: 'user'          
+    }
 });
 
-module.exports = mongoose.model('Usuario', userSchema);
+module.exports = mongoose.model('Usuario', UsuarioSchema);

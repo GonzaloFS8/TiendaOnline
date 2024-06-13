@@ -1,7 +1,7 @@
 <template>
     <aside id="sidebar-left">
         <div class="sidebar-item">
-            <h3 @click="abrirMenu">TOP Ligas</h3>
+            <h3 @click="abrirMenu">LIGAS</h3>
             <ul v-show="isMenuOpen">
                 <li v-for="liga in ligas" :key="liga">
                     <router-link :to="'/camisetas/' + liga">{{ liga }}</router-link>
@@ -66,7 +66,7 @@ export default defineComponent({
     margin: 0px;
     padding-bottom: 10px;
     margin-bottom: 10px;
-    border-bottom: 3px solid #eee;
+    border-bottom: 3px solid rgba(0, 28, 73, 1);
 }
 
 .sidebar-item ul {

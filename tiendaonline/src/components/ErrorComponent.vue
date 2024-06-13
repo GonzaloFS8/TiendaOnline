@@ -18,7 +18,7 @@
  #content{
     width: 70%;
     float:left;
-    min-height: 650px;
+    min-height: 67.9vh;
     margin-right: 20px;
 }
 .subheader{

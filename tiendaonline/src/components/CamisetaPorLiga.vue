@@ -1,6 +1,6 @@
 <template>
     <section id="content">
-      <h2 class="subheader">{{ liga }}</h2>
+      <h2 class="subheader">{{ liga }}<img src="../assets/imagenes/logoTienda.png" class="app-logo" alt="Logotipo" /></h2>
       <!-- Listado de Camisetas Filtradas por Liga -->
       <div id="articles" v-if="camisetasFiltradas.length">
         <div class="article-div">
@@ -16,6 +16,8 @@
                 animated
                 control-indicators
                 arrows
+                control-type="regular"
+                control-text-color="red" 
                 navigation
                 style="width: 100%; height: 200px;"
               >
@@ -35,6 +37,7 @@
               <h2>{{ camiseta.equipo }}</h2>
               <p>{{ camiseta.precio }}.00€</p>
               <p>{{ camiseta.año }}</p>
+              <p>Equipacion:{{ camiseta.equipacion }}</p>
               <router-link :to="'/camiseta/' + camiseta._id" class="btn">Ver Camiseta</router-link>
             </div>
           </article>
@@ -99,7 +102,7 @@ export default defineComponent({
 <style scoped>
 #content {
   width: 70%;
-  min-height: 650px;
+  min-height: 67.9vh;
   margin-right: 10px;
   padding-left: 3%;
 }
@@ -107,7 +110,7 @@ export default defineComponent({
 .subheader {
   font-size: 38px;
   width: 100%;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgb(218, 38, 38);
   padding-bottom: 10px;
   padding-left: 3%;
 }
@@ -160,5 +163,13 @@ export default defineComponent({
 
 .article-content a.btn:hover {
   background-color: rgb(218, 38, 38);
+}
+.app-logo {
+    display: block;
+    float: right;
+    height: 75px;
+    margin-top: -9px;
+    margin-right: 10px;
+    animation: latir infinite 5s linear;
 }
 </style>

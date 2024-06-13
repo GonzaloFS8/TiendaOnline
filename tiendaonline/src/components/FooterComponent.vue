@@ -35,11 +35,13 @@
     background-color: #343a40;
     color: #fff;
     padding: 20px 0; 
+    
   }
   
   .container {
     width: 85%;
     margin: 0 auto;
+    
   }
   
   .footer-content {

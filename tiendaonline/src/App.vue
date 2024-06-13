@@ -8,7 +8,7 @@
     <side-bar></side-bar>
   </div>
   <div class="clearfix"></div>
-  <footer-component></footer-component>
+  <footer-component ></footer-component>
   </div>
 </template>
 

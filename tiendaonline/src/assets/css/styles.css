@@ -3,13 +3,27 @@ body {
     margin: 0px;
     padding: 0px;
     color:rgba(0, 28, 73, 1);
-    /*FUENTES*/
-    font-family: 'Segoe UI';
+    
+    font-family: 'Roboto';
 }
 
-.center{width: 100%;}
+.center{width: 100%;
 
+}
 
+.btn{
+    display: block;
+    background-color:rgba(0, 28, 73, 1);
+    color: white;
+    padding: 15px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 300ms all;
+    border: none;
+    cursor:pointer;
+ }
 .clearfix{
     clear:both;
     float:none;

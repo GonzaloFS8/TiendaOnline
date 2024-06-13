@@ -2,8 +2,8 @@
 
 const validator = require('validator'); //Validar Datos
 const Camiseta = require('../models/camiseta');
-//Eliminar archivos 
-const fs = require('fs');
+
+const fs = require('fs'); 
 const path = require('path');
 
 
@@ -133,70 +133,69 @@ const controller = {
         }
     },
 
-    update: async (req, res) => {
-        // Recoger el id de la camiseta por la URL
-        const camisetaId = req.params.id;
-
-        // Recoger los datos que llegan por PUT
-        const params = req.body;
-
-        // Validar datos
+    
+    editCamiseta: async (req, res) => {
         try {
-            // Aquí validamos, 
-            const validate_equipo = !validator.isEmpty(params.equipo);
-            const validate_equipacion = !validator.isEmpty(params.equipacion);
-            const validate_año = !validator.isEmpty(params.año);
-            const validate_descripcion = !validator.isEmpty(params.descripcion);
-            const validate_precio = !validator.isEmpty(params.precio);
-            const validate_liga = !validator.isEmpty(params.liga);
-        } catch (err) {
-            return res.status(400).send({
-                status: 'error',
-                message: 'Faltan datos'
-            });
-        }
-
-        // Si los datos son válidos
-        if (validate_equipo && validate_equipacion && validate_año &&
-            validate_descripcion && validate_precio && validate_liga) {
-            try {
-                // Utilizar async/await para buscar y actualizar la camiseta
-                const camisetaUpdated = await Camiseta.findOneAndUpdate(
-                    { _id: camisetaId },
-                    params,
-                    { new: true }
-                );
-
-                // Verificar si se encontró y actualizó la camiseta
-                if (!camisetaUpdated) {
-                    return res.status(404).send({
-                        status: 'error',
-                        message: 'No existe la camiseta'
-                    });
-                }
-
-                // Enviar la respuesta con la camiseta actualizada
-                return res.status(200).send({
-                    status: 'success',
-                    Camiseta: camisetaUpdated
-                });
-            } catch (err) {
-                // Manejar errores de base de datos 
-                return res.status(500).send({
+            // Recoger el id de la camiseta de la URL
+            const camisetaId = req.params.id;
+    
+            // Verificar si el ID es válido
+            if (!camisetaId) {
+                return res.status(400).send({
                     status: 'error',
-                    message: 'Error al actualizar la camiseta'
+                    message: 'El ID de la camiseta no es válido'
                 });
             }
+    
+            // Recoger los datos actualizados de la camiseta
+            const updatedData = req.body;
+    
+            // Verificar si se proporcionaron datos para actualizar
+            if (!updatedData || Object.keys(updatedData).length === 0) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'No se proporcionaron datos para actualizar'
+                });
+            }
+    
+            // Buscar la camiseta por su ID y actualizar los campos permitidos
+            const updatedCamiseta = await Camiseta.findByIdAndUpdate(camisetaId, {
+                $set: {
+                    equipo: updatedData.equipo,
+                    equipacion: updatedData.equipacion,
+                    año: updatedData.año,
+                    jugadores: updatedData.jugadores,
+                    descripcion: updatedData.descripcion,
+                    precio: updatedData.precio,
+                    liga: updatedData.liga,
+                    talla: updatedData.talla
+                }
+            }, { new: true });
+    
+            // Verificar si la camiseta fue encontrada y actualizada
+            if (!updatedCamiseta) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No se encontró la camiseta o no se pudo actualizar'
+                });
+            }
+    
+            // Si se actualizó , devolver una respuesta con la camiseta actualizada
+            return res.status(200).send({
+                status: 'success',
+                message: 'Camiseta actualizada correctamente',
+                camiseta: updatedCamiseta
+            });
+        } catch (error) {
+            // Manejar errores de base de datos
+            console.error(error);
+            return res.status(500).send({
+                status: 'error',
+                message: 'Error al actualizar la camiseta'
+            });
         }
-
-        // Si no se pasaron las validaciones
-        return res.status(400).send({
-            status: 'error',
-            message: 'Datos de la camiseta inválidos'
-        });
     },
-
-
+    
     delete: async (req, res) => {
         try {
             // Recoger el id de la camiseta de la URL
@@ -221,7 +220,7 @@ const controller = {
                 });
             }
 
-            // Si se eliminó con éxito, devolver una respuesta 
+            // Si se eliminó , devolver una respuesta 
             return res.status(200).send({
                 status: 'success',
                 message: 'Camiseta eliminada correctamente',
@@ -329,7 +328,7 @@ const controller = {
             // Guardar la camiseta actualizada sin la imagen eliminada
             const camisetaActualizada = await camiseta.save();
 
-            // Devolver una respuesta de éxito
+            // Devolver una respuesta 
             return res.status(200).json({
                 status: 'success',
                 message: 'Imagen eliminada correctamente.',
@@ -346,7 +345,7 @@ const controller = {
 
     searchCamisetas: async (req, res) => {
         try {
-            // Recoger los parámetros de búsqueda del body
+            // Recoger los parámetros del body
             const { equipo, liga } = req.body;
 
             // Construir el objeto de consulta basado en los parámetros de búsqueda
@@ -416,8 +415,8 @@ const controller = {
             const imagePath = path.join(__dirname, `../upload/camisetas/${imageName}`);
 
             // Establecer las cabeceras para la imagen
-            res.setHeader('E-F-A', 'image/jpeg');
-            res.setHeader('E-F-A', `attachment; filename="${imageName}"`);
+            res.setHeader('E-F-A', 'image/jpeg'); //Tipo de Imagen
+            res.setHeader('E-F-A', `attachment; filename="${imageName}"`); //Especifica que la imgaen debe ser tratada como un archivo
 
             // Enviar la imagen al cliente
             fs.createReadStream(imagePath).pipe(res);
@@ -515,7 +514,37 @@ const controller = {
             console.error(error);
             return res.status(500).json({ status: 'error', message: 'Error al obtener los equipos por liga.' });
         }
+    },
+
+     getDetallesCarritoCamisetaPorId : async (req, res) => {
+        try {
+            // Recoger el ID de la camiseta de la URL
+            const camisetaId = req.params.id;
+    
+            // Verificar si el ID de la camiseta es válido
+            if (!camisetaId) {
+                return res.status(400).json({ status: 'error', message: 'ID de camiseta no válido.' });
+            }
+    
+            // Buscar la camiseta por su ID
+            const camiseta = await Camiseta.findById(camisetaId);
+    
+            // Verificar si la camiseta existe
+            if (!camiseta) {
+                return res.status(404).json({ status: 'error', message: 'No se encontró la camiseta.' });
+            }
+    
+            // Extraer los detalles necesarios de la camiseta
+            const { equipo, equipacion, año, precio } = camiseta;
+    
+            // Devolver los detalles de la camiseta
+            return res.status(200).json({ status: 'success', detallesCamiseta: { equipo, equipacion, año, precio } });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Error al obtener los detalles de la camiseta.' });
+        }
     }
+
 };
 
 module.exports = controller;

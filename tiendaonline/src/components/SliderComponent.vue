@@ -7,7 +7,10 @@
           outlined
           v-model="selectedFiltro"
           :options="filtros"
-          label="Seleccionar filtro"
+          label="¿QUE QUIERES BUSCAR?"
+          label-color="white"
+          bg-color="red-7"
+          style="width: 30%;"
         ></q-select>
         <q-select
           v-if="selectedFiltro === 'Liga'"
@@ -17,7 +20,11 @@
           v-model="selectedLiga"
           :options="ligas"
           label="Seleccionar liga"
+          label-color="white"
+          bg-color="red-7"
+          style="width: 30%; "
           @update:model-value="getEquiposPorLiga"
+          
         ></q-select>
         <q-select
           v-if="selectedFiltro === 'Equipo'"
@@ -26,6 +33,9 @@
           outlined
           v-model="selectedEquipo"
           :options="equipos"
+          label-color="white"
+          bg-color="red-7"
+          style="width: 30%; "
           label="Seleccionar equipo"
         ></q-select>
         <q-select
@@ -35,6 +45,9 @@
           outlined
           v-model="selectedEquipo"
           :options="equiposFiltradosPorLiga"
+          label-color="white"
+          bg-color="red-7"
+          style="width: 30%; "
           label="Seleccionar equipo (opcional)"
         ></q-select>
         <q-btn class="claseBoton" round icon="search" @click="Buscar" />
@@ -165,11 +178,11 @@
 .claseBoton {
     color: rgba(0, 28, 73, 1);
     background-color: rgba(243, 48, 48);
-    height: 30%;
     border-radius: 60%;
     border: none;
-    margin-left: 1%;
+    margin-left: 5%;
     margin-top: 0.5%;
+    
 }
 .claseBoton:hover {
     color: white;
@@ -177,9 +190,12 @@
     height: 30%;
     border-radius: 60%;
     border: none;
-    margin-left: 1%;
+    margin-left: 5%;
     margin-top: 0.5%;
 }
 
+.q-select{
+  margin-top: 0.5%;
+}
 
 </style>
